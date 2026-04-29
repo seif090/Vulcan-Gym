@@ -22,7 +22,9 @@ import {
   Wrench,
   Star,
   Target,
-  ShoppingCart
+  ShoppingCart,
+  Trophy,
+  Scale
 } from 'lucide-react';
 import { cn } from '../../lib/utils';
 import { useAuth } from '../../context/AuthContext';
@@ -34,6 +36,8 @@ const navItems = [
   { icon: Users, label: 'الأعضاء', path: '/members' },
   { icon: CreditCard, label: 'الاشتراكات', path: '/subscriptions' },
   { icon: ShoppingCart, label: 'نقطة البيع', path: '/pos' },
+  { icon: Trophy, label: 'التحديات', path: '/challenges' },
+  { icon: Scale, label: 'التحويلات', path: '/transformations' },
   { icon: Dumbbell, label: 'خطط التدريب', path: '/workouts' },
   { icon: Apple, label: 'خطط التغذية', path: '/diet-plans' },
   { icon: Calendar, label: 'الجدول الزمني', path: '/schedule' },

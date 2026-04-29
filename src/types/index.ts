@@ -174,6 +174,28 @@ export interface Sale {
   buyerName?: string;
 }
 
+export interface Challenge {
+  id: string;
+  title: string;
+  description: string;
+  startDate: string;
+  endDate: string;
+  participants: number;
+  prize?: string;
+  status: 'upcoming' | 'active' | 'completed';
+}
+
+export interface Transformation {
+  id: string;
+  memberId: string;
+  date: string;
+  weight: number;
+  bodyFat?: number;
+  muscleMass?: number;
+  notes?: string;
+  photoUrl?: string;
+}
+
 export interface WorkoutPlan {
   id: string;
   name: string;
