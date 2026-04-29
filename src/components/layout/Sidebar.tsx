@@ -15,7 +15,10 @@ import {
   DollarSign,
   Calendar,
   Package,
-  MessageSquare
+  MessageSquare,
+  Briefcase,
+  Megaphone,
+  Apple
 } from 'lucide-react';
 import { cn } from '../../lib/utils';
 import { useAuth } from '../../context/AuthContext';
@@ -26,11 +29,14 @@ const navItems = [
   { icon: Users, label: 'الأعضاء', path: '/members' },
   { icon: CreditCard, label: 'الاشتراكات', path: '/subscriptions' },
   { icon: Dumbbell, label: 'خطط التدريب', path: '/workouts' },
+  { icon: Apple, label: 'خطط التغذية', path: '/diet-plans' },
   { icon: Calendar, label: 'الجدول الزمني', path: '/schedule' },
   { icon: CalendarCheck, label: 'الحضور', path: '/attendance' },
   { icon: UserSquare2, label: 'المدربين', path: '/trainers' },
   { icon: Building2, label: 'الفروع', path: '/branches' },
+  { icon: Briefcase, label: 'الموظفين', path: '/employees' },
   { icon: Package, label: 'المخزون', path: '/inventory' },
+  { icon: Megaphone, label: 'التسويق', path: '/campaigns' },
   { icon: DollarSign, label: 'المدفوعات', path: '/payments' },
   { icon: BarChart3, label: 'التقارير', path: '/reports' },
 ];

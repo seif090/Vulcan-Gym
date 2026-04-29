@@ -20,6 +20,9 @@ import { Settings } from './pages/Settings';
 import { Schedule } from './pages/Schedule';
 import { Inventory } from './pages/Inventory';
 import { Messages } from './pages/Messages';
+import { Employees } from './pages/Employees';
+import { Campaigns } from './pages/Campaigns';
+import { DietPlans } from './pages/DietPlans';
 
 export default function App() {
   return (
@@ -36,9 +39,12 @@ export default function App() {
             <Route path="trainers" element={<Trainers />} />
             <Route path="branches" element={<Branches />} />
             <Route path="workouts" element={<Workouts />} />
+            <Route path="diet-plans" element={<DietPlans />} />
             <Route path="schedule" element={<Schedule />} />
             <Route path="inventory" element={<Inventory />} />
             <Route path="messages" element={<Messages />} />
+            <Route path="employees" element={<Employees />} />
+            <Route path="campaigns" element={<Campaigns />} />
             <Route path="payments" element={<Payments />} />
             <Route path="reports" element={<Reports />} />
             <Route path="settings" element={<Settings />} />

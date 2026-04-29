@@ -89,6 +89,47 @@ export interface Message {
   priority: 'low' | 'medium' | 'high';
 }
 
+export interface Employee {
+  id: string;
+  name: string;
+  role: string;
+  email: string;
+  phone: string;
+  branch: string;
+  status: 'active' | 'on-leave' | 'terminated';
+  joinDate: string;
+}
+
+export interface Campaign {
+  id: string;
+  name: string;
+  type: 'discount' | 'special-offer' | 're-engagement';
+  status: 'active' | 'scheduled' | 'expired';
+  reach: number;
+  conversion: number;
+  startDate: string;
+  endDate: string;
+}
+
+export interface DietPlan {
+  id: string;
+  name: string;
+  memberId: string;
+  nutritionistId: string;
+  dailyCalories: number;
+  macros: {
+    protein: number;
+    carbs: number;
+    fats: number;
+  };
+  meals: {
+    time: string;
+    description: string;
+  }[];
+  status: 'active' | 'draft';
+  createdAt: string;
+}
+
 export interface WorkoutPlan {
   id: string;
   name: string;
