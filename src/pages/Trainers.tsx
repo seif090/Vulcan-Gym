@@ -1,6 +1,7 @@
 import React from 'react';
-import { UserSquare2, Plus, Star, Award, Mail, Phone } from 'lucide-react';
+import { UserSquare2, Plus, Star, Award, Mail, Phone, Share2 } from 'lucide-react';
 import { cn } from '../lib/utils';
+import { SocialShare } from '../components/ui/SocialShare';
 
 const trainers = [
   { id: 't1', name: 'كابتن محمود', specialty: 'كمال أجسام', rating: 4.8, clients: 45, image: 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&q=80&w=200&h=200' },
@@ -72,6 +73,14 @@ export const Trainers: React.FC = () => {
                    <Phone className="h-4 w-4 text-text-dim group-hover/btn:text-accent" />
                    Priority Call
                  </button>
+              </div>
+
+              <div className="pt-6 border-t border-white/5 flex items-center justify-between">
+                <span className="text-[10px] font-black text-text-dim uppercase tracking-widest italic">Share Profile</span>
+                <SocialShare 
+                  url={`${window.location.origin}/trainers/${trainer.id}`} 
+                  title={`Train with ${trainer.name}, an expert in ${trainer.specialty} at Vulcan Gym!`} 
+                />
               </div>
             </div>
           </div>

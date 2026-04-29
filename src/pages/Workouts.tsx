@@ -11,6 +11,7 @@ import {
   MoreVertical
 } from 'lucide-react';
 import { cn } from '../lib/utils';
+import { SocialShare } from '../components/ui/SocialShare';
 
 const workouts = [
   { 
@@ -113,7 +114,15 @@ export const Workouts: React.FC = () => {
                </div>
             </div>
 
-            <div className="mt-auto flex gap-4">
+            <div className="mt-8 pt-8 border-t border-white/5 flex items-center justify-between">
+               <span className="text-[10px] font-black text-text-dim uppercase tracking-widest italic">Share Protocol</span>
+               <SocialShare 
+                 url={`${window.location.origin}/workouts/${workout.id}`} 
+                 title={`Check out the ${workout.name} workout plan at Vulcan Gym!`} 
+               />
+            </div>
+
+            <div className="mt-8 flex gap-4">
                <button className="flex-1 py-4 glass rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] text-white hover:bg-white/5 hover:border-accent/20 transition-all flex items-center justify-center gap-3">
                   <PlayCircle className="h-5 w-5 text-accent" />
                   View Regimen

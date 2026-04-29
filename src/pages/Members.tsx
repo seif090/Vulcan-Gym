@@ -12,6 +12,7 @@ import {
 import { Member } from '../types';
 import { cn, formatDate } from '../lib/utils';
 import { QRCodeSVG } from 'qrcode.react';
+import { SocialShare } from '../components/ui/SocialShare';
 
 const mockMembers: Member[] = [
   { id: '101', name: 'أحمد محمد علي', email: 'ahmed@email.com', phone: '01012345678', registrationDate: '2024-01-15', status: 'active', branchId: 'b1', qrCode: 'MEM-101' },
@@ -130,8 +131,16 @@ export const Members: React.FC = () => {
               <h3 className="text-2xl font-bold text-white mb-2">{selectedMember.name}</h3>
               <p className="text-xs text-text-dim font-bold uppercase tracking-[0.2em] mb-10">Member Identity: {selectedMember.id}</p>
               
-              <div className="bg-white p-6 rounded-3xl mb-10 shadow-[0_0_30px_rgba(255,255,255,0.1)] inline-block transform hover:scale-105 transition-transform">
+              <div className="bg-white p-6 rounded-3xl mb-6 shadow-[0_0_30px_rgba(255,255,255,0.1)] inline-block transform hover:scale-105 transition-transform">
                 <QRCodeSVG value={selectedMember.qrCode} size={180} />
+              </div>
+
+              <div className="flex flex-col items-center gap-4 mb-10">
+                <p className="text-[10px] font-black text-text-dim uppercase tracking-widest">Share Athlete Passport</p>
+                <SocialShare 
+                  url={`${window.location.origin}/members/${selectedMember.id}`} 
+                  title={`Check out ${selectedMember.name}'s athlete profile at Vulcan Gym!`} 
+                />
               </div>
 
               <div className="grid grid-cols-2 gap-4">
