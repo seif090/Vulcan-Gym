@@ -27,43 +27,50 @@ import {
   Receipt,
   Truck,
   Settings as SettingsIcon,
-  Globe
+  Globe,
+  Share2
 } from 'lucide-react';
 import { cn } from '../../lib/utils';
 import { useAuth } from '../../context/AuthContext';
 import { useLanguage } from '../../context/LanguageContext';
+import { UserRole } from '../../types';
 
 const navItems = [
-  { icon: LayoutDashboard, labelKey: 'nav.dashboard', path: '/' },
-  { icon: MessageSquare, labelKey: 'nav.messages', path: '/messages' },
-  { icon: Target, labelKey: 'nav.leads', path: '/leads' },
-  { icon: Users, labelKey: 'nav.members', path: '/members' },
-  { icon: CreditCard, labelKey: 'nav.subscriptions', path: '/subscriptions' },
-  { icon: ShoppingCart, labelKey: 'nav.pos', path: '/pos' },
-  { icon: Trophy, labelKey: 'nav.challenges', path: '/challenges' },
-  { icon: Scale, labelKey: 'nav.transformations', path: '/transformations' },
-  { icon: Dumbbell, labelKey: 'nav.workouts', path: '/workouts' },
-  { icon: Apple, labelKey: 'nav.diet_plans', path: '/diet-plans' },
-  { icon: Calendar, labelKey: 'nav.schedule', path: '/schedule' },
-  { icon: CalendarCheck, labelKey: 'nav.attendance', path: '/attendance' },
-  { icon: UserSquare2, labelKey: 'nav.trainers', path: '/trainers' },
-  { icon: Building2, labelKey: 'nav.branches', path: '/branches' },
-  { icon: Briefcase, labelKey: 'nav.employees', path: '/employees' },
-  { icon: Package, labelKey: 'nav.inventory', path: '/inventory' },
-  { icon: Wrench, labelKey: 'nav.maintenance', path: '/maintenance' },
-  { icon: Megaphone, labelKey: 'nav.campaigns', path: '/campaigns' },
-  { icon: Star, labelKey: 'nav.feedback', path: '/feedback' },
-  { icon: DollarSign, labelKey: 'nav.payments', path: '/payments' },
-  { icon: Receipt, labelKey: 'nav.expenses', path: '/expenses' },
-  { icon: Truck, labelKey: 'nav.suppliers', path: '/suppliers' },
-  { icon: BarChart3, labelKey: 'nav.reports', path: '/reports' },
-  { icon: SettingsIcon, labelKey: 'nav.settings', path: '/settings' },
+  { icon: LayoutDashboard, labelKey: 'nav.dashboard', path: '/', roles: [UserRole.ADMIN, UserRole.BRANCH_MANAGER, UserRole.RECEPTIONIST, UserRole.TRAINER, UserRole.MEMBER] },
+  { icon: MessageSquare, labelKey: 'nav.messages', path: '/messages', roles: [UserRole.ADMIN, UserRole.BRANCH_MANAGER, UserRole.RECEPTIONIST, UserRole.TRAINER, UserRole.MEMBER] },
+  { icon: Share2, labelKey: 'nav.community', path: '/community', roles: [UserRole.ADMIN, UserRole.BRANCH_MANAGER, UserRole.RECEPTIONIST, UserRole.TRAINER, UserRole.MEMBER] },
+  { icon: Target, labelKey: 'nav.leads', path: '/leads', roles: [UserRole.ADMIN, UserRole.BRANCH_MANAGER] },
+  { icon: Users, labelKey: 'nav.members', path: '/members', roles: [UserRole.ADMIN, UserRole.BRANCH_MANAGER, UserRole.RECEPTIONIST, UserRole.TRAINER] },
+  { icon: CreditCard, labelKey: 'nav.subscriptions', path: '/subscriptions', roles: [UserRole.ADMIN, UserRole.BRANCH_MANAGER, UserRole.RECEPTIONIST] },
+  { icon: ShoppingCart, labelKey: 'nav.pos', path: '/pos', roles: [UserRole.ADMIN, UserRole.BRANCH_MANAGER, UserRole.RECEPTIONIST] },
+  { icon: Trophy, labelKey: 'nav.challenges', path: '/challenges', roles: [UserRole.ADMIN, UserRole.BRANCH_MANAGER, UserRole.RECEPTIONIST, UserRole.TRAINER, UserRole.MEMBER] },
+  { icon: Scale, labelKey: 'nav.transformations', path: '/transformations', roles: [UserRole.ADMIN, UserRole.BRANCH_MANAGER, UserRole.TRAINER, UserRole.MEMBER] },
+  { icon: Dumbbell, labelKey: 'nav.workouts', path: '/workouts', roles: [UserRole.ADMIN, UserRole.BRANCH_MANAGER, UserRole.TRAINER, UserRole.MEMBER] },
+  { icon: Apple, labelKey: 'nav.diet_plans', path: '/diet-plans', roles: [UserRole.ADMIN, UserRole.BRANCH_MANAGER, UserRole.TRAINER, UserRole.MEMBER] },
+  { icon: Calendar, labelKey: 'nav.schedule', path: '/schedule', roles: [UserRole.ADMIN, UserRole.BRANCH_MANAGER, UserRole.RECEPTIONIST, UserRole.TRAINER, UserRole.MEMBER] },
+  { icon: CalendarCheck, labelKey: 'nav.attendance', path: '/attendance', roles: [UserRole.ADMIN, UserRole.BRANCH_MANAGER, UserRole.RECEPTIONIST] },
+  { icon: UserSquare2, labelKey: 'nav.trainers', path: '/trainers', roles: [UserRole.ADMIN, UserRole.BRANCH_MANAGER] },
+  { icon: Building2, labelKey: 'nav.branches', path: '/branches', roles: [UserRole.ADMIN] },
+  { icon: Briefcase, labelKey: 'nav.employees', path: '/employees', roles: [UserRole.ADMIN, UserRole.BRANCH_MANAGER] },
+  { icon: Package, labelKey: 'nav.inventory', path: '/inventory', roles: [UserRole.ADMIN, UserRole.BRANCH_MANAGER, UserRole.RECEPTIONIST] },
+  { icon: Wrench, labelKey: 'nav.maintenance', path: '/maintenance', roles: [UserRole.ADMIN, UserRole.BRANCH_MANAGER] },
+  { icon: Megaphone, labelKey: 'nav.campaigns', path: '/campaigns', roles: [UserRole.ADMIN, UserRole.BRANCH_MANAGER] },
+  { icon: Star, labelKey: 'nav.feedback', path: '/feedback', roles: [UserRole.ADMIN, UserRole.BRANCH_MANAGER, UserRole.MEMBER] },
+  { icon: DollarSign, labelKey: 'nav.payments', path: '/payments', roles: [UserRole.ADMIN, UserRole.BRANCH_MANAGER, UserRole.RECEPTIONIST] },
+  { icon: Receipt, labelKey: 'nav.expenses', path: '/expenses', roles: [UserRole.ADMIN, UserRole.BRANCH_MANAGER] },
+  { icon: Truck, labelKey: 'nav.suppliers', path: '/suppliers', roles: [UserRole.ADMIN, UserRole.BRANCH_MANAGER] },
+  { icon: BarChart3, labelKey: 'nav.reports', path: '/reports', roles: [UserRole.ADMIN, UserRole.BRANCH_MANAGER] },
+  { icon: SettingsIcon, labelKey: 'nav.settings', path: '/settings', roles: [UserRole.ADMIN, UserRole.BRANCH_MANAGER, UserRole.RECEPTIONIST, UserRole.TRAINER, UserRole.MEMBER] },
 ];
 
 export const Sidebar: React.FC = () => {
-  const { logout } = useAuth();
+  const { user, logout } = useAuth();
   const { t, language, setLanguage, isRTL } = useLanguage();
   const navigate = useNavigate();
+
+  const filteredNavItems = navItems.filter(item => 
+    !item.roles || (user && item.roles.includes(user.role))
+  );
 
   const handleLogout = () => {
     logout();
@@ -88,7 +95,7 @@ export const Sidebar: React.FC = () => {
       </div>
       
       <nav className="flex-1 space-y-1.5 px-4 py-8 overflow-y-auto custom-scrollbar">
-        {navItems.map((item) => (
+        {filteredNavItems.map((item) => (
           <NavLink
             key={item.path}
             to={item.path}

@@ -3,6 +3,7 @@ export enum UserRole {
   BRANCH_MANAGER = 'BRANCH_MANAGER',
   RECEPTIONIST = 'RECEPTIONIST',
   TRAINER = 'TRAINER',
+  MEMBER = 'MEMBER',
 }
 
 export interface User {
@@ -213,6 +214,26 @@ export interface Supplier {
   email: string;
   phone: string;
   status: 'active' | 'inactive';
+}
+
+export interface CommunityPost {
+  id: string;
+  authorId: string;
+  authorName: string;
+  authorAvatar?: string;
+  content: string;
+  image?: string;
+  likes: number;
+  comments: CommunityComment[];
+  createdAt: string;
+  tags?: string[];
+}
+
+export interface CommunityComment {
+  id: string;
+  authorName: string;
+  content: string;
+  createdAt: string;
 }
 
 export interface WorkoutPlan {

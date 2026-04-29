@@ -29,6 +29,7 @@ import { FeedbackPage } from './pages/Feedback';
 import { Leads } from './pages/Leads';
 import { POS } from './pages/POS';
 import { Challenges } from './pages/Challenges';
+import { Community } from './pages/Community';
 import { Transformations } from './pages/Transformations';
 import { Expenses } from './pages/Expenses';
 import { Suppliers } from './pages/Suppliers';
@@ -55,6 +56,7 @@ export default function App() {
               <Route path="schedule" element={<Schedule />} />
               <Route path="inventory" element={<Inventory />} />
               <Route path="messages" element={<Messages />} />
+              <Route path="community" element={<Community />} />
               <Route path="leads" element={<Leads />} />
               <Route path="pos" element={<POS />} />
               <Route path="challenges" element={<Challenges />} />
