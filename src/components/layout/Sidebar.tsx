@@ -20,7 +20,9 @@ import {
   Megaphone,
   Apple,
   Wrench,
-  Star
+  Star,
+  Target,
+  ShoppingCart
 } from 'lucide-react';
 import { cn } from '../../lib/utils';
 import { useAuth } from '../../context/AuthContext';
@@ -28,8 +30,10 @@ import { useAuth } from '../../context/AuthContext';
 const navItems = [
   { icon: LayoutDashboard, label: 'لوحة التحكم', path: '/' },
   { icon: MessageSquare, label: 'الرسائل', path: '/messages' },
+  { icon: Target, label: 'العملاء المحتملين', path: '/leads' },
   { icon: Users, label: 'الأعضاء', path: '/members' },
   { icon: CreditCard, label: 'الاشتراكات', path: '/subscriptions' },
+  { icon: ShoppingCart, label: 'نقطة البيع', path: '/pos' },
   { icon: Dumbbell, label: 'خطط التدريب', path: '/workouts' },
   { icon: Apple, label: 'خطط التغذية', path: '/diet-plans' },
   { icon: Calendar, label: 'الجدول الزمني', path: '/schedule' },

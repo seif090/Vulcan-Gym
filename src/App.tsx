@@ -25,6 +25,8 @@ import { Campaigns } from './pages/Campaigns';
 import { DietPlans } from './pages/DietPlans';
 import { Maintenance } from './pages/Maintenance';
 import { FeedbackPage } from './pages/Feedback';
+import { Leads } from './pages/Leads';
+import { POS } from './pages/POS';
 
 export default function App() {
   return (
@@ -47,6 +49,8 @@ export default function App() {
             <Route path="schedule" element={<Schedule />} />
             <Route path="inventory" element={<Inventory />} />
             <Route path="messages" element={<Messages />} />
+            <Route path="leads" element={<Leads />} />
+            <Route path="pos" element={<POS />} />
             <Route path="employees" element={<Employees />} />
             <Route path="campaigns" element={<Campaigns />} />
             <Route path="payments" element={<Payments />} />

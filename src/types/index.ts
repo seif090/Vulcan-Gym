@@ -150,6 +150,30 @@ export interface Feedback {
   status: 'pending' | 'reviewed' | 'resolved';
 }
 
+export interface Lead {
+  id: string;
+  name: string;
+  phone: string;
+  source: 'social' | 'walk-in' | 'referral';
+  interest: 'personal-training' | 'group-classes' | 'standard-membership';
+  status: 'new' | 'contacted' | 'trial' | 'converted' | 'lost';
+  createdAt: string;
+}
+
+export interface Sale {
+  id: string;
+  products: {
+    productId: string;
+    name: string;
+    quantity: number;
+    price: number;
+  }[];
+  total: number;
+  date: string;
+  paymentMethod: 'cash' | 'card';
+  buyerName?: string;
+}
+
 export interface WorkoutPlan {
   id: string;
   name: string;
