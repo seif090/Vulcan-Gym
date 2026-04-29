@@ -130,6 +130,26 @@ export interface DietPlan {
   createdAt: string;
 }
 
+export interface MaintenanceLog {
+  id: string;
+  equipmentName: string;
+  category: 'cardio' | 'strength' | 'infrastructure';
+  lastService: string;
+  nextService: string;
+  status: 'operational' | 'under-repair' | 'needs-service';
+  priority: 'low' | 'medium' | 'high';
+}
+
+export interface Feedback {
+  id: string;
+  memberName: string;
+  rating: number;
+  category: 'facility' | 'staff' | 'trainer' | 'app';
+  comment: string;
+  date: string;
+  status: 'pending' | 'reviewed' | 'resolved';
+}
+
 export interface WorkoutPlan {
   id: string;
   name: string;

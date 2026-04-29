@@ -23,6 +23,8 @@ import { Messages } from './pages/Messages';
 import { Employees } from './pages/Employees';
 import { Campaigns } from './pages/Campaigns';
 import { DietPlans } from './pages/DietPlans';
+import { Maintenance } from './pages/Maintenance';
+import { FeedbackPage } from './pages/Feedback';
 
 export default function App() {
   return (
@@ -40,6 +42,8 @@ export default function App() {
             <Route path="branches" element={<Branches />} />
             <Route path="workouts" element={<Workouts />} />
             <Route path="diet-plans" element={<DietPlans />} />
+            <Route path="maintenance" element={<Maintenance />} />
+            <Route path="feedback" element={<FeedbackPage />} />
             <Route path="schedule" element={<Schedule />} />
             <Route path="inventory" element={<Inventory />} />
             <Route path="messages" element={<Messages />} />

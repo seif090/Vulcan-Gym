@@ -18,7 +18,9 @@ import {
   MessageSquare,
   Briefcase,
   Megaphone,
-  Apple
+  Apple,
+  Wrench,
+  Star
 } from 'lucide-react';
 import { cn } from '../../lib/utils';
 import { useAuth } from '../../context/AuthContext';
@@ -36,7 +38,9 @@ const navItems = [
   { icon: Building2, label: 'الفروع', path: '/branches' },
   { icon: Briefcase, label: 'الموظفين', path: '/employees' },
   { icon: Package, label: 'المخزون', path: '/inventory' },
+  { icon: Wrench, label: 'الصيانة', path: '/maintenance' },
   { icon: Megaphone, label: 'التسويق', path: '/campaigns' },
+  { icon: Star, label: 'الآراء', path: '/feedback' },
   { icon: DollarSign, label: 'المدفوعات', path: '/payments' },
   { icon: BarChart3, label: 'التقارير', path: '/reports' },
 ];
