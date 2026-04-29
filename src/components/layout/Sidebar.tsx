@@ -28,7 +28,8 @@ import {
   Truck,
   Settings as SettingsIcon,
   Globe,
-  Share2
+  Share2,
+  Bot
 } from 'lucide-react';
 import { cn } from '../../lib/utils';
 import { useAuth } from '../../context/AuthContext';
@@ -39,6 +40,7 @@ const navItems = [
   { icon: LayoutDashboard, labelKey: 'nav.dashboard', path: '/', roles: [UserRole.ADMIN, UserRole.BRANCH_MANAGER, UserRole.RECEPTIONIST, UserRole.TRAINER, UserRole.MEMBER] },
   { icon: MessageSquare, labelKey: 'nav.messages', path: '/messages', roles: [UserRole.ADMIN, UserRole.BRANCH_MANAGER, UserRole.RECEPTIONIST, UserRole.TRAINER, UserRole.MEMBER] },
   { icon: Share2, labelKey: 'nav.community', path: '/community', roles: [UserRole.ADMIN, UserRole.BRANCH_MANAGER, UserRole.RECEPTIONIST, UserRole.TRAINER, UserRole.MEMBER] },
+  { icon: Bot, labelKey: 'nav.workouts_ai', path: '/workouts-ai', roles: [UserRole.ADMIN, UserRole.BRANCH_MANAGER, UserRole.TRAINER, UserRole.MEMBER] },
   { icon: Target, labelKey: 'nav.leads', path: '/leads', roles: [UserRole.ADMIN, UserRole.BRANCH_MANAGER] },
   { icon: Users, labelKey: 'nav.members', path: '/members', roles: [UserRole.ADMIN, UserRole.BRANCH_MANAGER, UserRole.RECEPTIONIST, UserRole.TRAINER] },
   { icon: CreditCard, labelKey: 'nav.subscriptions', path: '/subscriptions', roles: [UserRole.ADMIN, UserRole.BRANCH_MANAGER, UserRole.RECEPTIONIST] },
@@ -48,7 +50,7 @@ const navItems = [
   { icon: Dumbbell, labelKey: 'nav.workouts', path: '/workouts', roles: [UserRole.ADMIN, UserRole.BRANCH_MANAGER, UserRole.TRAINER, UserRole.MEMBER] },
   { icon: Apple, labelKey: 'nav.diet_plans', path: '/diet-plans', roles: [UserRole.ADMIN, UserRole.BRANCH_MANAGER, UserRole.TRAINER, UserRole.MEMBER] },
   { icon: Calendar, labelKey: 'nav.schedule', path: '/schedule', roles: [UserRole.ADMIN, UserRole.BRANCH_MANAGER, UserRole.RECEPTIONIST, UserRole.TRAINER, UserRole.MEMBER] },
-  { icon: CalendarCheck, labelKey: 'nav.attendance', path: '/attendance', roles: [UserRole.ADMIN, UserRole.BRANCH_MANAGER, UserRole.RECEPTIONIST] },
+  { icon: CalendarCheck, labelKey: 'nav.attendance', path: '/attendance', roles: [UserRole.ADMIN, UserRole.BRANCH_MANAGER, UserRole.RECEPTIONIST, UserRole.MEMBER] },
   { icon: UserSquare2, labelKey: 'nav.trainers', path: '/trainers', roles: [UserRole.ADMIN, UserRole.BRANCH_MANAGER] },
   { icon: Building2, labelKey: 'nav.branches', path: '/branches', roles: [UserRole.ADMIN] },
   { icon: Briefcase, labelKey: 'nav.employees', path: '/employees', roles: [UserRole.ADMIN, UserRole.BRANCH_MANAGER] },

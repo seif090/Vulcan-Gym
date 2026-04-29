@@ -1,139 +1,217 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { 
-  Scan, 
-  Search, 
-  LogIn, 
-  LogOut, 
+  Users, 
   Clock, 
-  UserCircle 
+  MapPin, 
+  Search, 
+  CheckCircle2, 
+  XCircle,
+  QrCode,
+  Scan,
+  RefreshCcw,
+  Wifi,
+  UserCircle,
+  LogIn,
+  LogOut
 } from 'lucide-react';
-import { cn, formatDate } from '../lib/utils';
+import { useLanguage } from '../context/LanguageContext';
+import { cn } from '../lib/utils';
+import { useAuth } from '../context/AuthContext';
+import { UserRole } from '../types';
 
-const attendanceHistory = [
-  { id: '1', memberName: 'أحمد محمد علي', time: '10:15 ص', type: 'in', branch: 'فرع المعادي' },
-  { id: '2', memberName: 'سارة محمود', time: '10:45 ص', type: 'in', branch: 'فرع المعادي' },
-  { id: '3', memberName: 'محمود حسن', time: '11:20 ص', type: 'out', branch: 'فرع التجمع' },
-  { id: '4', memberName: 'ليلى إبراهيم', time: '12:05 م', type: 'in', branch: 'فرع المعادي' },
-  { id: '5', memberName: 'ياسين حسن', time: '12:30 م', type: 'out', branch: 'فرع أكتوبر' },
+interface AttendanceRecord {
+  id: string;
+  userId: string;
+  userName: string;
+  userAvatar: string;
+  checkInTime: string;
+  checkOutTime: string | null;
+  status: 'active' | 'completed';
+  node: string;
+}
+
+const mockAttendance: AttendanceRecord[] = [
+  {
+    id: '1',
+    userId: 'u1',
+    userName: 'سيف الدين طارق',
+    userAvatar: 'https://images.unsplash.com/photo-1541534741688-6078c6bfb5c5?auto=format&fit=crop&q=80&w=256',
+    checkInTime: '2:00 PM',
+    checkOutTime: null,
+    status: 'active',
+    node: 'Maadi Node'
+  },
+  {
+    id: '2',
+    userId: 'u2',
+    userName: 'Sarah Node',
+    userAvatar: 'https://images.unsplash.com/photo-1548690312-e3b507d17a4d?auto=format&fit=crop&q=80&w=256',
+    checkInTime: '1:30 PM',
+    checkOutTime: '2:45 PM',
+    status: 'completed',
+    node: 'Tagamoa Node'
+  }
 ];
 
 export const Attendance: React.FC = () => {
-  const [memberId, setMemberId] = React.useState('');
-  const [showStatus, setShowStatus] = React.useState<'success' | 'error' | null>(null);
+  const { t, isRTL } = useLanguage();
+  const { user } = useAuth();
+  const [records, setRecords] = useState<AttendanceRecord[]>(mockAttendance);
+  const [searchQuery, setSearchQuery] = useState('');
 
-  const handleCheckIn = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (memberId) {
-      setShowStatus('success');
-      setTimeout(() => setShowStatus(null), 3000);
-      setMemberId('');
+  const activeUnits = records.filter(r => r.status === 'active');
+  const filteredRecords = records.filter(r => 
+    r.userName.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
+  const handleSync = () => {
+    if (!user) return;
+    
+    const isCurrentlyActive = activeUnits.find(r => r.userId === user.id);
+    
+    if (isCurrentlyActive) {
+      // Check out
+      setRecords(records.map(r => 
+        (r.userId === user.id && r.status === 'active') 
+          ? { ...r, status: 'completed', checkOutTime: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) } 
+          : r
+      ));
+    } else {
+      // Check in
+      const newRecord: AttendanceRecord = {
+        id: Date.now().toString(),
+        userId: user.id,
+        userName: user.name,
+        userAvatar: user.avatar || '',
+        checkInTime: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+        checkOutTime: null,
+        status: 'active',
+        node: 'Central Hub'
+      };
+      setRecords([newRecord, ...records]);
     }
   };
 
   return (
-    <div className="mx-auto max-w-5xl space-y-12 animate-in fade-in duration-700">
-      <div className="text-center space-y-3">
-        <h1 className="text-4xl font-extrabold text-white tracking-tight uppercase italic neon-text">Attendance Portal</h1>
-        <p className="text-text-dim max-w-md mx-auto">Scan Terminal QR or enter secure Identity ID to log session access.</p>
+    <div className="space-y-12 animate-in fade-in duration-700 pb-20">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6">
+        <div className={cn(isRTL ? "text-right" : "text-left")}>
+          <h1 className="text-3xl font-extrabold text-white uppercase italic tracking-tight">{t('attendance.title')}</h1>
+          <p className="text-text-dim uppercase font-black text-[10px] tracking-[0.2em]">{t('attendance.subtitle')}</p>
+        </div>
+        
+        <div className="flex gap-4 w-full sm:w-auto">
+           <button 
+             onClick={handleSync}
+             className={cn(
+               "flex-1 sm:flex-initial px-8 py-4 rounded-2xl font-black text-[10px] uppercase tracking-widest transition-all flex items-center justify-center gap-3",
+               activeUnits.find(r => r.userId === user?.id) 
+                 ? "bg-red-500/10 text-red-500 border border-red-500/20 hover:bg-red-500/20" 
+                 : "bg-accent text-black neon-glow hover:scale-105 active:scale-95"
+             )}
+           >
+             {activeUnits.find(r => r.userId === user?.id) ? (
+               <><XCircle className="h-4 w-4" /> {t('attendance.check_out')}</>
+             ) : (
+               <><Wifi className="h-4 w-4" /> {t('attendance.check_in')}</>
+             )}
+           </button>
+        </div>
       </div>
 
-      <div className="grid gap-10 md:grid-cols-2">
-        <div className="space-y-6">
-          <div className="glass rounded-[2.5rem] p-10 shadow-2xl relative overflow-hidden border border-white/5">
-            <div className="absolute top-0 right-0 w-32 h-32 bg-accent/5 rounded-full blur-3xl pointer-events-none"></div>
-            
-            <div className="flex flex-col items-center gap-8 relative z-10">
-              <div className="relative group cursor-pointer">
-                 <div className="h-64 w-64 rounded-[2rem] bg-white/[0.02] border-2 border-dashed border-accent/20 flex items-center justify-center transition-all group-hover:border-accent/40 group-hover:bg-white/[0.04]">
-                    <Scan className="h-24 w-24 text-accent opacity-20 group-hover:opacity-40 transition-opacity" />
-                    
-                    {/* Scanning Animation */}
-                    <div className="absolute inset-4 border border-accent/30 rounded-[1.5rem] overflow-hidden">
-                       <div className="absolute top-0 left-0 w-full h-1 bg-accent/60 shadow-[0_0_15px_rgba(209,255,0,0.8)] animate-scan-line"></div>
-                    </div>
-                    <div className="absolute inset-0 border-2 border-accent/10 rounded-[2rem] animate-pulse"></div>
-                 </div>
-                 <div className="absolute -top-4 -right-4 rounded-2xl bg-accent p-4 text-black shadow-xl neon-glow animate-bounce-slow">
-                    <Scan className="h-6 w-6" />
-                 </div>
-              </div>
-              <p className="text-[10px] font-bold text-accent uppercase tracking-[0.4em] animate-pulse">Waiting for biometric pulse...</p>
-            </div>
-            
-            <div className="mt-12 border-t border-white/5 pt-10">
-              <form onSubmit={handleCheckIn} className="space-y-6">
-                <div>
-                  <label className="text-[10px] font-extrabold text-text-dim uppercase tracking-widest mb-3 block px-1 italic">Manual Identity Entry</label>
-                  <div className="flex gap-4">
-                    <input
-                      type="text"
-                      value={memberId}
-                      onChange={(e) => setMemberId(e.target.value)}
-                      placeholder="IDENTITY-XXXXX"
-                      className="flex-1 rounded-2xl border border-white/5 bg-white/2 px-6 py-4 text-sm font-medium text-white focus:border-accent/40 focus:outline-none transition-all placeholder:text-white/20"
-                    />
-                    <button type="submit" className="rounded-2xl bg-accent px-8 font-extrabold text-black transition-all hover:scale-105 active:scale-95 neon-glow text-xs uppercase tracking-widest">
-                      Enter
-                    </button>
-                  </div>
-                </div>
-              </form>
+      <div className="grid gap-6 grid-cols-2 lg:grid-cols-4">
+         <div className="glass rounded-[2rem] p-8 border border-white/5 space-y-2 relative overflow-hidden">
+            <div className="absolute top-0 right-0 p-4 opacity-5"><Users className="h-12 w-12" /></div>
+            <p className="text-[10px] font-black uppercase text-text-dim tracking-widest">Active Units</p>
+            <p className="text-4xl font-extrabold text-white italic neon-text">{activeUnits.length}</p>
+         </div>
+         <div className="glass rounded-[2rem] p-8 border border-white/5 space-y-2 relative overflow-hidden">
+            <div className="absolute top-0 right-0 p-4 opacity-5"><RefreshCcw className="h-12 w-12" /></div>
+            <p className="text-[10px] font-black uppercase text-text-dim tracking-widest">Facility Load</p>
+            <p className="text-4xl font-extrabold text-white italic">{Math.round((activeUnits.length/50)*100)}%</p>
+         </div>
+      </div>
 
-              {showStatus === 'success' && (
-                <div className="mt-6 rounded-2xl bg-accent/10 p-5 text-accent border border-accent/20 flex items-center gap-4 animate-in fade-in zoom-in-95 backdrop-blur-md">
-                  <div className="h-10 w-10 rounded-full bg-accent flex items-center justify-center text-black shadow-lg">
-                    <LogIn className="h-5 w-5" />
-                  </div>
-                  <div>
-                    <p className="font-extrabold text-sm uppercase tracking-tight">Access Granted</p>
-                    <p className="text-[10px] font-bold opacity-70 italic tracking-wide">Session established. Welcome back, Athlete.</p>
-                  </div>
-                </div>
-              )}
-            </div>
-          </div>
-        </div>
-
-        <div className="glass rounded-[2.5rem] shadow-2xl relative overflow-hidden border border-white/5 flex flex-col">
-          <div className="p-8 border-b border-white/5 flex justify-between items-center bg-white/[0.01]">
-            <h3 className="font-bold text-white flex items-center gap-4 text-lg">
-              <Clock className="h-6 w-6 text-accent" />
-              Terminal Access Logs
-            </h3>
-            <span className="text-[10px] font-extrabold text-accent uppercase tracking-widest bg-accent/10 px-3 py-1 rounded-full">{formatDate(new Date())}</span>
-          </div>
-          <div className="divide-y divide-white/5 max-h-[550px] overflow-y-auto custom-scrollbar">
-             {attendanceHistory.map((item) => (
-               <div key={item.id} className="p-6 flex items-center justify-between hover:bg-white/[0.03] transition-all group cursor-default">
-                  <div className="flex items-center gap-4">
-                    <div className="h-12 w-12 rounded-2xl bg-white/5 border border-white/5 flex items-center justify-center text-text-dim group-hover:text-accent group-hover:border-accent/20 transition-all">
-                      <UserCircle className="h-7 w-7" />
-                    </div>
-                    <div>
-                      <p className="text-sm font-extrabold text-white group-hover:neon-text transition-all">{item.memberName}</p>
-                      <p className="text-[10px] uppercase text-text-dim font-bold tracking-tighter italic">{item.branch}</p>
-                    </div>
-                  </div>
-                  <div className="text-right">
-                    <p className="text-xs font-mono font-bold text-white opacity-60 mb-1">{item.time}</p>
-                    <div className={cn(
-                      "inline-flex items-center gap-1.5 text-[9px] font-extrabold uppercase tracking-widest px-2 py-0.5 rounded-md border",
-                      item.type === 'in' ? "text-accent border-accent/20 bg-accent/5" : "text-red-400 border-red-500/20 bg-red-500/5"
-                    )}>
-                      {item.type === 'in' ? <LogIn className="h-3 w-3" /> : <LogOut className="h-3 w-3" />}
-                      {item.type === 'in' ? 'Check In' : 'Check Out'}
-                    </div>
-                  </div>
+      <div className="grid gap-12 lg:grid-cols-3">
+         <div className="lg:col-span-2 space-y-8">
+            <div className="flex items-center justify-between px-2">
+               <h3 className="text-lg font-black text-white uppercase italic">{t('attendance.recent')}</h3>
+               <div className="relative w-64">
+                  <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-text-dim" />
+                  <input 
+                    type="text" 
+                    placeholder="Filter records..." 
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    className={cn(
+                      "w-full bg-white/5 border border-white/10 rounded-xl py-2.5 pl-12 pr-4 text-xs text-white focus:outline-none focus:border-accent/40",
+                      isRTL ? "text-right" : "text-left"
+                    )}
+                  />
                </div>
-             ))}
-          </div>
-          <div className="p-6 bg-white/[0.02] mt-auto">
-             <button className="w-full text-[10px] font-extrabold text-accent uppercase tracking-[0.2em] hover:brightness-125 transition-all text-center">
-               View All Historical Records
-             </button>
-          </div>
-        </div>
+            </div>
+
+            <div className="space-y-4">
+               {filteredRecords.map((record) => (
+                 <div key={record.id} className="glass group rounded-[2.5rem] p-8 border border-white/5 hover:border-white/10 transition-all">
+                    <div className={cn("flex flex-col sm:flex-row items-center justify-between gap-6", isRTL ? "sm:flex-row-reverse" : "sm:flex-row")}>
+                       <div className={cn("flex items-center gap-6", isRTL ? "flex-row-reverse" : "flex-row")}>
+                          <div className="relative">
+                             <img src={record.userAvatar || `https://ui-avatars.com/api/?name=${encodeURIComponent(record.userName)}&background=1a1a1e&color=fff`} className="h-16 w-16 rounded-[1.5rem] object-cover border border-white/10" alt={record.userName} />
+                             {record.status === 'active' && (
+                               <div className="absolute -top-1 -right-1 h-5 w-5 bg-accent rounded-full border-[6px] border-[#0a0a0c] animate-pulse" />
+                             )}
+                          </div>
+                          <div className={cn(isRTL ? "text-right" : "text-left")}>
+                             <h4 className="text-xl font-black text-white italic uppercase tracking-tight group-hover:text-accent transition-colors">{record.userName}</h4>
+                             <div className={cn("flex items-center gap-4 mt-2 text-[10px] font-bold text-text-dim uppercase tracking-widest", isRTL ? "flex-row-reverse" : "flex-row")}>
+                                <div className="flex items-center gap-1.5"><MapPin className="h-3 w-3" /> {record.node}</div>
+                                <div className="flex items-center gap-1.5"><Clock className="h-3 w-3" /> {record.checkInTime}</div>
+                             </div>
+                          </div>
+                       </div>
+                       
+                       <div className={cn("flex flex-col gap-2 w-full sm:w-auto", isRTL ? "sm:items-start" : "sm:items-end")}>
+                          <div className={cn(
+                             "px-4 py-1.5 rounded-xl text-[10px] font-black uppercase tracking-widest flex items-center gap-2",
+                             record.status === 'active' ? "bg-accent/10 text-accent ring-1 ring-accent/20" : "bg-white/5 text-text-dim ring-1 ring-white/10"
+                          )}>
+                             {record.status === 'active' ? <Wifi className="h-3 w-3" /> : <Clock className="h-3 w-3" />}
+                             {record.status}
+                          </div>
+                          {record.checkOutTime && (
+                            <p className="text-[10px] font-bold text-text-dim px-2 italic uppercase">Terminated @ {record.checkOutTime}</p>
+                          )}
+                       </div>
+                    </div>
+                 </div>
+               ))}
+            </div>
+         </div>
+
+         <div className="space-y-8">
+            <div className="glass rounded-[2.5rem] p-10 border border-white/5 text-center relative overflow-hidden group">
+               <div className="absolute inset-0 bg-accent/2 opacity-0 group-hover:opacity-100 transition-opacity" />
+               <div className="h-20 w-20 bg-accent/10 rounded-3xl flex items-center justify-center mx-auto mb-8 ring-1 ring-accent/20 rotate-3 group-hover:rotate-0 transition-transform">
+                  <Scan className="h-10 w-10 text-accent" />
+               </div>
+               <h4 className="text-sm font-black text-white uppercase italic tracking-widest mb-4">Identity Sync Terminal</h4>
+               <p className="text-xs text-text-dim leading-relaxed mb-8">Scan your biometric QR to sync your current session with the facility's local host.</p>
+               
+               <div className="aspect-square glass rounded-[2rem] p-12 border border-white/5 relative overflow-hidden mb-8">
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <QrCode className="w-full h-full text-white/5" />
+                  </div>
+                  <div className="absolute top-1/2 left-0 right-0 h-0.5 bg-accent/30 animate-scan pointer-events-none" />
+               </div>
+
+               <button className="w-full bg-white/2 border border-white/10 p-5 rounded-2xl text-[10px] font-black uppercase tracking-widest text-text-dim hover:text-white hover:bg-white/5 transition-all">
+                  Run Diagnostic
+               </button>
+            </div>
+         </div>
       </div>
     </div>
   );
 };
+

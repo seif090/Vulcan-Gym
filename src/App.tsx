@@ -16,6 +16,7 @@ import { Trainers } from './pages/Trainers';
 import { Branches } from './pages/Branches';
 import { Reports } from './pages/Reports';
 import { Workouts } from './pages/Workouts';
+import { WorkoutsAI } from './pages/WorkoutsAI';
 import { Payments } from './pages/Payments';
 import { Settings } from './pages/Settings';
 import { Schedule } from './pages/Schedule';
@@ -50,6 +51,7 @@ export default function App() {
               <Route path="trainers" element={<Trainers />} />
               <Route path="branches" element={<Branches />} />
               <Route path="workouts" element={<Workouts />} />
+              <Route path="workouts-ai" element={<WorkoutsAI />} />
               <Route path="diet-plans" element={<DietPlans />} />
               <Route path="maintenance" element={<Maintenance />} />
               <Route path="feedback" element={<FeedbackPage />} />
