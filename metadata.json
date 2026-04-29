@@ -1,0 +1,6 @@
+{
+  "name": "OxyGym Pro",
+  "description": "نظام احترافي لإدارة الصالات الرياضية يدعم تعدد الفروع، تتبع الأعضاء، الاشتراكات، والحضور عبر QR Code.",
+  "requestFramePermissions": [],
+  "majorCapabilities": []
+}

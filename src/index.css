@@ -1,0 +1,61 @@
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "IBM Plex Sans Arabic", ui-sans-serif, system-ui, sans-serif;
+  
+  --color-accent: #d1ff00;
+  --color-surface: #121215;
+  --color-surface-hover: #1a1a1e;
+  --color-bg: #09090b;
+  --color-text-dim: #a1a1aa;
+  --color-border-subtle: rgba(255, 255, 255, 0.08);
+}
+
+@layer base {
+  html {
+    @apply antialiased;
+    font-size: 16px;
+  }
+  
+  body {
+    @apply bg-bg text-white;
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  }
+}
+
+.rtl {
+  direction: rtl;
+}
+
+.glass {
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--color-border-subtle);
+}
+
+.neon-text {
+  text-shadow: 0 0 15px rgba(209, 255, 0, 0.4);
+}
+
+.neon-glow {
+  box-shadow: 0 0 20px rgba(209, 255, 0, 0.2);
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-white/10 rounded-full;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-white/20;
+}
+

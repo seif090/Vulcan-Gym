@@ -1,0 +1,53 @@
+/**
+ * @license
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { AuthProvider } from './context/AuthContext';
+import { MainLayout } from './components/layout/MainLayout';
+import { Login } from './pages/Login';
+import { Dashboard } from './pages/Dashboard';
+import { Members } from './pages/Members';
+import { Subscriptions } from './pages/Subscriptions';
+import { Attendance } from './pages/Attendance';
+import { Trainers } from './pages/Trainers';
+import { Branches } from './pages/Branches';
+import { Reports } from './pages/Reports';
+import { Workouts } from './pages/Workouts';
+import { Payments } from './pages/Payments';
+import { Settings } from './pages/Settings';
+import { Schedule } from './pages/Schedule';
+import { Inventory } from './pages/Inventory';
+import { Messages } from './pages/Messages';
+
+export default function App() {
+  return (
+    <AuthProvider>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/login" element={<Login />} />
+          
+          <Route element={<MainLayout />}>
+            <Route index element={<Dashboard />} />
+            <Route path="members" element={<Members />} />
+            <Route path="subscriptions" element={<Subscriptions />} />
+            <Route path="attendance" element={<Attendance />} />
+            <Route path="trainers" element={<Trainers />} />
+            <Route path="branches" element={<Branches />} />
+            <Route path="workouts" element={<Workouts />} />
+            <Route path="schedule" element={<Schedule />} />
+            <Route path="inventory" element={<Inventory />} />
+            <Route path="messages" element={<Messages />} />
+            <Route path="payments" element={<Payments />} />
+            <Route path="reports" element={<Reports />} />
+            <Route path="settings" element={<Settings />} />
+          </Route>
+
+          <Route path="*" element={<Navigate to="/" replace />} />
+        </Routes>
+      </BrowserRouter>
+    </AuthProvider>
+  );
+}
+
