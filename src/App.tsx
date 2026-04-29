@@ -5,6 +5,7 @@
 
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
+import { LanguageProvider } from './context/LanguageContext';
 import { MainLayout } from './components/layout/MainLayout';
 import { Login } from './pages/Login';
 import { Dashboard } from './pages/Dashboard';
@@ -34,42 +35,44 @@ import { Suppliers } from './pages/Suppliers';
 
 export default function App() {
   return (
-    <AuthProvider>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/login" element={<Login />} />
-          
-          <Route element={<MainLayout />}>
-            <Route index element={<Dashboard />} />
-            <Route path="members" element={<Members />} />
-            <Route path="subscriptions" element={<Subscriptions />} />
-            <Route path="attendance" element={<Attendance />} />
-            <Route path="trainers" element={<Trainers />} />
-            <Route path="branches" element={<Branches />} />
-            <Route path="workouts" element={<Workouts />} />
-            <Route path="diet-plans" element={<DietPlans />} />
-            <Route path="maintenance" element={<Maintenance />} />
-            <Route path="feedback" element={<FeedbackPage />} />
-            <Route path="schedule" element={<Schedule />} />
-            <Route path="inventory" element={<Inventory />} />
-            <Route path="messages" element={<Messages />} />
-            <Route path="leads" element={<Leads />} />
-            <Route path="pos" element={<POS />} />
-            <Route path="challenges" element={<Challenges />} />
-            <Route path="transformations" element={<Transformations />} />
-            <Route path="expenses" element={<Expenses />} />
-            <Route path="suppliers" element={<Suppliers />} />
-            <Route path="employees" element={<Employees />} />
-            <Route path="campaigns" element={<Campaigns />} />
-            <Route path="payments" element={<Payments />} />
-            <Route path="reports" element={<Reports />} />
-            <Route path="settings" element={<Settings />} />
-          </Route>
+    <LanguageProvider>
+      <AuthProvider>
+        <BrowserRouter>
+          <Routes>
+            <Route path="/login" element={<Login />} />
+            
+            <Route element={<MainLayout />}>
+              <Route index element={<Dashboard />} />
+              <Route path="members" element={<Members />} />
+              <Route path="subscriptions" element={<Subscriptions />} />
+              <Route path="attendance" element={<Attendance />} />
+              <Route path="trainers" element={<Trainers />} />
+              <Route path="branches" element={<Branches />} />
+              <Route path="workouts" element={<Workouts />} />
+              <Route path="diet-plans" element={<DietPlans />} />
+              <Route path="maintenance" element={<Maintenance />} />
+              <Route path="feedback" element={<FeedbackPage />} />
+              <Route path="schedule" element={<Schedule />} />
+              <Route path="inventory" element={<Inventory />} />
+              <Route path="messages" element={<Messages />} />
+              <Route path="leads" element={<Leads />} />
+              <Route path="pos" element={<POS />} />
+              <Route path="challenges" element={<Challenges />} />
+              <Route path="transformations" element={<Transformations />} />
+              <Route path="expenses" element={<Expenses />} />
+              <Route path="suppliers" element={<Suppliers />} />
+              <Route path="employees" element={<Employees />} />
+              <Route path="campaigns" element={<Campaigns />} />
+              <Route path="payments" element={<Payments />} />
+              <Route path="reports" element={<Reports />} />
+              <Route path="settings" element={<Settings />} />
+            </Route>
 
-          <Route path="*" element={<Navigate to="/" replace />} />
-        </Routes>
-      </BrowserRouter>
-    </AuthProvider>
+            <Route path="*" element={<Navigate to="/" replace />} />
+          </Routes>
+        </BrowserRouter>
+      </AuthProvider>
+    </LanguageProvider>
   );
 }
 

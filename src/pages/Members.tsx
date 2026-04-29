@@ -13,6 +13,7 @@ import { Member } from '../types';
 import { cn, formatDate } from '../lib/utils';
 import { QRCodeSVG } from 'qrcode.react';
 import { SocialShare } from '../components/ui/SocialShare';
+import { useLanguage } from '../context/LanguageContext';
 
 const mockMembers: Member[] = [
   { id: '101', name: 'أحمد محمد علي', email: 'ahmed@email.com', phone: '01012345678', registrationDate: '2024-01-15', status: 'active', branchId: 'b1', qrCode: 'MEM-101' },
@@ -23,6 +24,7 @@ const mockMembers: Member[] = [
 ];
 
 export const Members: React.FC = () => {
+  const { t, isRTL } = useLanguage();
   const [searchTerm, setSearchTerm] = React.useState('');
   const [selectedMember, setSelectedMember] = React.useState<Member | null>(null);
 
@@ -34,42 +36,45 @@ export const Members: React.FC = () => {
     <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6">
         <div>
-          <h1 className="text-3xl font-bold text-white mb-1">إدارة الأعضاء</h1>
-          <p className="text-text-dim">تتبع الاشتراكات، بيانات التواصل، وبطاقات الدخول.</p>
+          <h1 className="text-3xl font-bold text-white mb-1 uppercase italic">{t('members.title')}</h1>
+          <p className="text-text-dim uppercase font-black text-[10px] tracking-[0.2em]">{t('members.subtitle')}</p>
         </div>
-        <button className="bg-accent text-black px-8 py-3 rounded-xl font-bold text-sm hover:scale-105 transition-all neon-glow flex items-center gap-3">
+        <button className="bg-accent text-black px-8 py-3 rounded-xl font-bold text-sm hover:scale-105 transition-all neon-glow flex items-center gap-3 uppercase tracking-widest">
           <Plus className="h-5 w-5" />
-          إضافة عضو جديد
+          {t('members.add')}
         </button>
       </div>
 
       <div className="flex flex-col md:flex-row gap-4">
         <div className="relative flex-1">
-          <Search className="absolute right-4 top-1/2 h-5 w-5 -translate-y-1/2 text-text-dim" />
+          <Search className={cn("absolute top-1/2 h-5 w-5 -translate-y-1/2 text-text-dim", isRTL ? "right-4" : "left-4")} />
           <input
             type="text"
-            placeholder="البحث بالاسم، الرقم، أو الكود..."
+            placeholder={t('common.search')}
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full glass rounded-2xl py-3 pr-12 pl-4 text-sm focus:border-accent/40 focus:outline-none transition-all"
+            className={cn(
+               "w-full glass rounded-2xl py-3 text-sm focus:border-accent/40 focus:outline-none transition-all",
+               isRTL ? "pr-12 pl-4" : "pl-12 pr-4"
+            )}
           />
         </div>
-        <button className="glass flex items-center gap-2 px-6 py-3 rounded-2xl text-sm font-bold text-white hover:bg-white/5 transition-all">
+        <button className="glass flex items-center gap-2 px-6 py-3 rounded-2xl text-sm font-bold text-white hover:bg-white/5 transition-all uppercase tracking-widest">
           <Filter className="h-5 w-5" />
-          تصفية النتائج
+          تصفية
         </button>
       </div>
 
-      <div className="glass rounded-3xl overflow-hidden shadow-2xl">
+      <div className="glass rounded-3xl overflow-hidden shadow-2xl transition-all duration-500 border border-white/5">
         <div className="overflow-x-auto">
-          <table className="w-full text-right text-sm">
+          <table className={cn("w-full text-sm", isRTL ? "text-right" : "text-left")}>
             <thead>
-              <tr className="bg-white/2">
-                <th className="px-8 py-5 font-bold text-text-dim text-xs uppercase tracking-widest">العضو</th>
-                <th className="px-8 py-5 font-bold text-text-dim text-xs uppercase tracking-widest">رقم التواصل</th>
-                <th className="px-8 py-5 font-bold text-text-dim text-xs uppercase tracking-widest">تاريخ الانضمام</th>
-                <th className="px-8 py-5 font-bold text-text-dim text-xs uppercase tracking-widest">الحالة</th>
-                <th className="px-8 py-5 font-bold text-text-dim text-xs uppercase tracking-widest text-left">التفاعل</th>
+              <tr className="bg-white/2 border-b border-white/5">
+                <th className="px-8 py-5 font-bold text-text-dim text-xs uppercase tracking-widest">{t('members.name')}</th>
+                <th className="px-8 py-5 font-bold text-text-dim text-xs uppercase tracking-widest">{t('nav.messages')}</th>
+                <th className="px-8 py-5 font-bold text-text-dim text-xs uppercase tracking-widest">{t('common.date')}</th>
+                <th className="px-8 py-5 font-bold text-text-dim text-xs uppercase tracking-widest">{t('common.status')}</th>
+                <th className={cn("px-8 py-5 font-bold text-text-dim text-xs uppercase tracking-widest", isRTL ? "text-left" : "text-right")}>{t('common.actions')}</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-white/5">
@@ -81,8 +86,8 @@ export const Members: React.FC = () => {
                         {member.name.charAt(0)}
                       </div>
                       <div>
-                        <p className="font-bold text-white text-base">{member.name}</p>
-                        <p className="text-[10px] text-text-dim font-medium">{member.email}</p>
+                        <p className="font-bold text-white text-base group-hover:text-accent transition-colors">{member.name}</p>
+                        <p className="text-[10px] text-text-dim font-medium uppercase tracking-tighter">{member.email}</p>
                       </div>
                     </div>
                   </td>
@@ -97,10 +102,10 @@ export const Members: React.FC = () => {
                       member.status === 'expired' ? "bg-red-500/10 text-red-500 border border-red-500/20" :
                       "bg-amber-500/10 text-amber-500 border border-amber-500/20"
                     )}>
-                      {member.status === 'active' ? 'نشط' : member.status === 'expired' ? 'منتهي' : 'قيد المراجعة'}
+                      {member.status === 'active' ? (isRTL ? 'نشط' : 'Active') : (member.status === 'expired' ? (isRTL ? 'منتهي' : 'Expired') : (isRTL ? 'قيد المراجعة' : 'Pending'))}
                     </span>
                   </td>
-                  <td className="px-8 py-5 text-left">
+                  <td className={cn("px-8 py-5", isRTL ? "text-left" : "text-right")}>
                     <div className="flex justify-end gap-3">
                       <button onClick={() => setSelectedMember(member)} className="w-9 h-9 flex items-center justify-center glass rounded-lg text-text-dim hover:text-accent transition-all">
                         <QrCode className="h-4 w-4" />
