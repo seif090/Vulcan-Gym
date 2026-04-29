@@ -24,7 +24,9 @@ import {
   Target,
   ShoppingCart,
   Trophy,
-  Scale
+  Scale,
+  Receipt,
+  Truck
 } from 'lucide-react';
 import { cn } from '../../lib/utils';
 import { useAuth } from '../../context/AuthContext';
@@ -50,6 +52,8 @@ const navItems = [
   { icon: Megaphone, label: 'التسويق', path: '/campaigns' },
   { icon: Star, label: 'الآراء', path: '/feedback' },
   { icon: DollarSign, label: 'المدفوعات', path: '/payments' },
+  { icon: Receipt, label: 'المصاريف', path: '/expenses' },
+  { icon: Truck, label: 'الموردين', path: '/suppliers' },
   { icon: BarChart3, label: 'التقارير', path: '/reports' },
 ];
 

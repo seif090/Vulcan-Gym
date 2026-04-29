@@ -29,6 +29,8 @@ import { Leads } from './pages/Leads';
 import { POS } from './pages/POS';
 import { Challenges } from './pages/Challenges';
 import { Transformations } from './pages/Transformations';
+import { Expenses } from './pages/Expenses';
+import { Suppliers } from './pages/Suppliers';
 
 export default function App() {
   return (
@@ -55,6 +57,8 @@ export default function App() {
             <Route path="pos" element={<POS />} />
             <Route path="challenges" element={<Challenges />} />
             <Route path="transformations" element={<Transformations />} />
+            <Route path="expenses" element={<Expenses />} />
+            <Route path="suppliers" element={<Suppliers />} />
             <Route path="employees" element={<Employees />} />
             <Route path="campaigns" element={<Campaigns />} />
             <Route path="payments" element={<Payments />} />

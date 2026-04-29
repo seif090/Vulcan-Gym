@@ -196,6 +196,25 @@ export interface Transformation {
   photoUrl?: string;
 }
 
+export interface Expense {
+  id: string;
+  category: 'rent' | 'utilities' | 'salaries' | 'maintenance' | 'marketing' | 'other';
+  amount: number;
+  date: string;
+  status: 'paid' | 'pending';
+  description: string;
+}
+
+export interface Supplier {
+  id: string;
+  name: string;
+  category: 'supplements' | 'equipment' | 'apparel' | 'services';
+  contactPerson: string;
+  email: string;
+  phone: string;
+  status: 'active' | 'inactive';
+}
+
 export interface WorkoutPlan {
   id: string;
   name: string;
